@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -86,11 +87,14 @@ func unitFor(bssid string) string {
 }
 
 // startHelper keeps WifiInfo.app running; it writes the link (with BSSID) to NowFile.
+// Only the copy next to this binary counts: another WifiInfo.app elsewhere writes its
+// files into its own folder, so -n makes open start ours even if that one is running.
 func startHelper() {
 	touch(WantFile)
 	if st, err := os.Stat(HelperApp); err == nil && st.IsDir() {
-		if exec.Command("pgrep", "-x", "WifiInfo").Run() != nil {
-			exec.Command("open", "-g", HelperApp).Run()
+		exe := filepath.Join(HelperApp, "Contents", "MacOS", "WifiInfo")
+		if exec.Command("pgrep", "-f", "^"+regexp.QuoteMeta(exe)+"( |$)").Run() != nil {
+			exec.Command("open", "-g", "-n", HelperApp).Run()
 		}
 	}
 }
