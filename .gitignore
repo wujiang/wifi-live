@@ -4,3 +4,4 @@ wifi_live.json
 wifi_survey.csv
 .wifi_*
 .DS_Store
+/dist/

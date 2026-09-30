@@ -18,13 +18,26 @@ of all units) to `wifi_survey.csv`.
 
 ![Saved spots](docs/saved-spots.png)
 
-## Requirements
+## Install
 
-- macOS
-- Go 1.26+ and the Xcode command line tools (`xcode-select --install`), for `swiftc`,
-  `codesign` and cgo
+Download `wifi-live-<version>-macos.zip` from the
+[latest release](https://github.com/wujiang/wifi-live/releases/latest). It runs on macOS 12
+or later, on Apple silicon and Intel Macs.
 
-## Build
+```sh
+unzip wifi-live-*-macos.zip
+cd wifi-live-*-macos
+xattr -dr com.apple.quarantine .
+```
+
+The binaries are signed ad hoc, not notarized by Apple, so macOS blocks them after a
+download until the `xattr` line clears the quarantine flag. Keep `wifi_live` and
+`WifiInfo.app` in the same folder.
+
+## Build from source
+
+Needs Go 1.26+ and the Xcode command line tools (`xcode-select --install`), for `swiftc`,
+`codesign` and cgo.
 
 ```sh
 git clone https://github.com/wujiang/wifi-live.git
@@ -32,7 +45,8 @@ cd wifi-live
 make
 ```
 
-This builds two things into the repo folder, which must stay side by side:
+This builds two things into the repo folder, which must stay side by side (`make dist`
+builds the release zip instead):
 
 | File | What it is |
 | --- | --- |
