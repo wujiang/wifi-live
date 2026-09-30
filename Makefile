@@ -32,7 +32,7 @@ dist:
 	codesign --force -s - $(DIST)/wifi_live
 	cp README.md wifi_live.example.json $(DIST)/
 	rm -f dist/wifi_live.* dist/WifiInfo.*
-	cd dist && ditto -c -k --keepParent $(notdir $(DIST)) $(notdir $(DIST)).zip
+	cd dist && ditto -c -k --norsrc --noextattr --noacl --keepParent $(notdir $(DIST)) $(notdir $(DIST)).zip
 
 clean:
 	rm -rf wifi_live WifiInfo.app dist
